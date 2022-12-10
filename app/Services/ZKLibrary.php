@@ -604,6 +604,7 @@ class ZKLibrary
         $command_string = $byte1 . $byte2 . chr($finger);
         return $this->execCommand($command, $command_string);
     }
+
     public function getUser()
     {
         if ($this->protocol == 'TCP') {

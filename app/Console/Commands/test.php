@@ -37,7 +37,7 @@ class test extends Command
         $this->warn($zk->getSerialNumber());
         $this->warn($zk->getFirmwareVersion());
         $this->warn($zk->getWorkCode());
-        $atendance = $zk->getAttendance();
+        $atendance = $zk->getUser();
 
         $this->warn("Total: " . count($atendance));
         foreach ($atendance as $attendance) {
