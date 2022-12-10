@@ -65,9 +65,15 @@ class test extends Command
 
         // print_r($serialNumber->to_json());
 
-        $logs = $tad->get_att_log();
+        $att_logs = $tad->get_att_log();
 
-        print_r($logs->to_array());
+        // Now, you want filter the resulset to get att logs between '2014-01-10' and '2014-03-20'.
+        $filtered_att_logs = $att_logs->filter_by_date(
+            ['start' => '2022-12-09', 'end' => '2022-12-09']
+        );
+
+
+        print_r($filtered_att_logs->to_array());
 
         return Command::SUCCESS;
     }
