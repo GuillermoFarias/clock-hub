@@ -48,7 +48,7 @@ class test extends Command
 
         echo "Time: " . ($end_time - $start_time) . PHP_EOL;
 
-        print_r($attLogs[0]);
+        print_r($attLogs);
 
         return Command::SUCCESS;
     }
