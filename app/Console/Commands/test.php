@@ -46,12 +46,24 @@ class test extends Command
         //     print_r($attendance);
         // }
 
+        $options = [
+            'ip' => $ip,   // '169.254.0.1' by default (totally useless!!!).
+            'internal_id' => 1,    // 1 by default.
+            'com_key' => 0,        // 0 by default.
+            'description' => 'TAD1', // 'N/A' by default.
+            'soap_port' => 80,     // 80 by default,
+            'udp_port' => 4370,      // 4370 by default.
+            'encoding' => 'utf-8'    // iso8859-1 by default.
+        ];
 
-        $comands = TAD::commands_available();
-        $tad = (new TADFactory(['ip' => $ip, 'port' => $port]))->get_instance();
+        $tad_factory = new TADFactory($options);
+        $tad = $tad_factory->get_instance();
 
-        print_r($comands);
-        print_r($tad->get_serial_number());
+        // $comands = TAD::commands_available();
+        // print_r($comands);
+        $serialNumber = $tad->get_serial_number();
+
+        print_r($serialNumber);
 
         return Command::SUCCESS;
     }
