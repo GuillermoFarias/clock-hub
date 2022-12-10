@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Laradevsbd\Zkteco\Http\Library\ZktecoLib;
+use App\Services\ZkService\ZktecoLib;
 
 class test extends Command
 {
@@ -33,7 +33,7 @@ class test extends Command
 
         $zk = new ZktecoLib($ip, $port);
         $zk->connect();
-        $this->warn($zk->serialNumber());
+        $this->warn($zk->getSerialNumber());
         return Command::SUCCESS;
     }
 }

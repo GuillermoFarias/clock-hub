@@ -2,7 +2,7 @@
 
 namespace App\Services\ZkService;
 
-class ZKLibrary
+class ZktecoLib
 {
     public const CMD_CONNECT = 1000;
     public const CMD_EXIT = 1001;
