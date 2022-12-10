@@ -35,6 +35,15 @@ class test extends Command
         $zk = new ZKLibrary($ip, $port);
         $zk->connect();
         $this->warn($zk->getSerialNumber());
+        $this->warn($zk->getFirmwareVersion());
+        $this->warn($zk->getWorkCode());
+        $atendance = $zk->getAttendance();
+
+        $this->warn("Total: " . count($atendance));
+        foreach ($atendance as $attendance) {
+            $this->warn($attendance);
+        }
+
         return Command::SUCCESS;
     }
 }

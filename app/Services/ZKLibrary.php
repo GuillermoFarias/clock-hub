@@ -303,9 +303,7 @@ class ZKLibrary
             $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6', substr($this->received_data, $this->start_data, 8));
             $this->session_id =  hexdec($u['h6'] . $u['h5']);
             return substr($this->received_data, $offset_data);
-        } catch (ErrorException $e) {
-            return FALSE;
-        } catch (exception $e) {
+        } catch (\Exception $e) {
             return FALSE;
         }
     }
@@ -494,10 +492,10 @@ class ZKLibrary
         $command_string = '~SSR=' . $ssr;
         return $this->execCommand($command, $command_string);
     }
-    public function getPinWidth()
+
+    public function getPinWidth($net = true)
     {
-        $command = CMD_GET_PINWIDTH;
-        $command = CMD_OPTIONS_PRQ;
+        $command = CMD_DEVICE;
         $command_string = '~PIN2Width';
         $return = $this->execCommand($command, $command_string);
         if ($net) {
@@ -507,6 +505,7 @@ class ZKLibrary
             return $return;
         }
     }
+
     public function setPinWidth($pinWidth)
     {
         $command = CMD_OPTIONS_WRQ;
@@ -1161,9 +1160,7 @@ class ZKLibrary
                 }
             }
             return $attendance;
-        } catch (ErrorException $e) {
-            return FALSE;
-        } catch (exception $e) {
+        } catch (\Exception $e) {
             return FALSE;
         }
     }

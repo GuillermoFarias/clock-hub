@@ -27,7 +27,6 @@ class ZktecoLib
     public const CMD_USERTEMP_RRQ = 9;
     public const CMD_USERTEMP_WRQ = 10;
     public const CMD_OPTIONS_RRQ = 11;
-    public const CMD_DEVICE = 11;
     public const CMD_OPTIONS_WRQ = 12;
     public const CMD_ATTLOG_RRQ = 13;
     public const CMD_CLEAR_DATA = 14;
