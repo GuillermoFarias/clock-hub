@@ -39,22 +39,28 @@ class test extends Command
         $this->warn($zk->getSerialNumber());
         $this->warn($zk->getFirmwareVersion());
         $this->warn($zk->getWorkCode());
+
+        $start_time = microtime(true);
         $atendance = $zk->getAttendance();
+        $end_time = microtime(true);
+        $execution_time = ($end_time - $start_time);
+        echo "1 - Time = " . $execution_time . " sec";
 
-        $this->warn("Total: " . count($atendance));
+        // $this->warn("Total: " . count($atendance));
 
-        // $options = [
-        //     'ip' => $ip,
-        //     'internal_id' => 1,         // 1 by default.
-        //     'com_key' => 0,             // 0 by default.
-        //     'description' => 'TAD1',    // 'N/A' by default.
-        //     'soap_port' => 80,          // 80 by default,
-        //     'udp_port' => $port,        // 4370 by default.
-        //     'encoding' => 'utf-8'       // iso8859-1 by default.
-        // ];
 
-        // $tad_factory = new TADFactory($options);
-        // $tad = $tad_factory->get_instance();
+        $options = [
+            'ip' => $ip,
+            'internal_id' => 1,         // 1 by default.
+            'com_key' => 0,             // 0 by default.
+            'description' => 'TAD1',    // 'N/A' by default.
+            'soap_port' => 80,          // 80 by default,
+            'udp_port' => $port,        // 4370 by default.
+            'encoding' => 'utf-8'       // iso8859-1 by default.
+        ];
+
+        $tad_factory = new TADFactory($options);
+        $tad = $tad_factory->get_instance();
 
         // $comands = TAD::commands_available();
         // print_r($comands);
@@ -62,9 +68,13 @@ class test extends Command
 
         // print_r($serialNumber->to_json());
 
-        // $att_logs = $tad->get_att_log();
+        $start_time = microtime(true);
+        $att_logs = $tad->get_att_log();
+        $end_time = microtime(true);
+        $execution_time = ($end_time - $start_time);
+        echo "2 - Time = " . $execution_time . " sec";
 
-        // // Now, you want filter the resulset to get att logs between '2014-01-10' and '2014-03-20'.
+        // Now, you want filter the resulset to get att logs between '2014-01-10' and '2014-03-20'.
         // $filtered_att_logs = $att_logs->filter_by_date(
         //     ['start' => '2022-12-09', 'end' => '2022-12-09']
         // );
