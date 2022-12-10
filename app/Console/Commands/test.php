@@ -47,13 +47,13 @@ class test extends Command
         // }
 
         $options = [
-            'ip' => $ip,   // '169.254.0.1' by default (totally useless!!!).
-            'internal_id' => 1,    // 1 by default.
-            'com_key' => 0,        // 0 by default.
-            'description' => 'TAD1', // 'N/A' by default.
-            'soap_port' => 80,     // 80 by default,
-            'udp_port' => 4370,      // 4370 by default.
-            'encoding' => 'utf-8'    // iso8859-1 by default.
+            'ip' => $ip,
+            'internal_id' => 1,         // 1 by default.
+            'com_key' => 0,             // 0 by default.
+            'description' => 'TAD1',    // 'N/A' by default.
+            'soap_port' => 80,          // 80 by default,
+            'udp_port' => $port,        // 4370 by default.
+            'encoding' => 'utf-8'       // iso8859-1 by default.
         ];
 
         $tad_factory = new TADFactory($options);
@@ -61,9 +61,13 @@ class test extends Command
 
         // $comands = TAD::commands_available();
         // print_r($comands);
-        $serialNumber = $tad->get_serial_number();
+        // $serialNumber = $tad->get_serial_number();
 
-        print_r($serialNumber->to_json());
+        // print_r($serialNumber->to_json());
+
+        $logs = $tad->get_att_log();
+
+        print_r($logs->to_json());
 
         return Command::SUCCESS;
     }
