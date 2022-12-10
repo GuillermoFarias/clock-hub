@@ -81,7 +81,7 @@ class ZKLibrary
             socket_connect($this->socket, $ip, $port);
         } else {
             $this->socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
-            $this->setTimeout($this->sec, $this->usec);
+            $this->setTimeout($this->timeout_sec, $this->timeout_usec);
         }
     }
     public function __destruct()
