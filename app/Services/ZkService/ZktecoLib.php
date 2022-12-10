@@ -211,8 +211,8 @@ class ZktecoLib
         while ($i > 1) {
             $u = unpack('S', pack('C2', $p['c' . $j], $p['c' . ($j + 1)]));
             $chksum += $u[1];
-            if ($chksum > USHRT_MAX) {
-                $chksum -= USHRT_MAX;
+            if ($chksum > self::USHRT_MAX) {
+                $chksum -= self::USHRT_MAX;
             }
             $i -= 2;
             $j += 2;
@@ -220,8 +220,8 @@ class ZktecoLib
         if ($i) {
             $chksum = $chksum + $p['c' . strval(count($p))];
         }
-        while ($chksum > USHRT_MAX) {
-            $chksum -= USHRT_MAX;
+        while ($chksum > self::USHRT_MAX) {
+            $chksum -= self::USHRT_MAX;
         }
         if ($chksum > 0) {
             $chksum = - ($chksum);
@@ -230,7 +230,7 @@ class ZktecoLib
         }
         $chksum -= 1;
         while ($chksum < 0) {
-            $chksum += USHRT_MAX;
+            $chksum += self::USHRT_MAX;
         }
         return pack('S', $chksum);
     }
