@@ -712,6 +712,8 @@ class TADZKLib
 
         try {
             $this->data_recv = $this->recv();
+            print_r($this->data_recv);
+            die();
             $bytes = $this->getSizeAttendance();
             if ($bytes) {
                 while ($bytes > 0) {
