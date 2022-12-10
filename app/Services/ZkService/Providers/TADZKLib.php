@@ -792,6 +792,6 @@ class TADZKLib
 
     public function send($buf)
     {
-        socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
+        socket_sendto($this->zkclient, $buf, strlen($buf), 0, $this->ip, $this->port);
     }
 }
