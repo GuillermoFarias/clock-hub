@@ -223,6 +223,7 @@ class ZKLibrary
         $d = date("Y-m-d H:i:s", strtotime($year . '-' . $month . '-' . $day . ' ' . $hour . ':' . $minute . ':' . $second));
         return $d;
     }
+
     private function checkSum($p)
     {
         /* This function calculates the chksum of the packet to be sent to the time clock */

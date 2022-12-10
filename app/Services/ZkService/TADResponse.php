@@ -453,7 +453,7 @@ class TADResponse
     /**
      * Returns the numbers of nodes that the XML response has.
      *
-     * @param type $response XML string.
+     * @param string $response XML string.
      * @return int number of nodes.
      */
     private function get_items_number($response)
