@@ -108,6 +108,7 @@ class ZKLibrary
         }
         return $data;
     }
+
     public function connect($ip = null, $port = 4370)
     {
         if ($ip != null) {
@@ -626,11 +627,11 @@ class ZKLibrary
 
             if ($comando == CMD_ACK_OK) {
                 $u = unpack('H2h1/H2h2', substr($this->received_data, 17, 2));
-                $size = hexdec($u['h2'] . $u['h1']);
             } else {
                 $u = unpack('H2h1/H2h2', substr($this->received_data, 16, 2));
-                $size = hexdec($u['h2'] . $u['h1']);
             }
+
+            $size = hexdec($u['h2'] . $u['h1']);
 
             if ($size > 1024) {
                 $buf = $this->createHeader(1504, $chksum, $session_id, $reply_id, pack('LL', 0, $size));
