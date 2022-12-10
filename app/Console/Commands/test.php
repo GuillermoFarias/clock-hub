@@ -41,7 +41,7 @@ class test extends Command
 
         $this->warn("Total: " . count($atendance));
         foreach ($atendance as $attendance) {
-            $this->warn($attendance);
+            print_r($attendance);
         }
 
         return Command::SUCCESS;
