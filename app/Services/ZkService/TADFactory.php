@@ -50,7 +50,7 @@ class TADFactory
      *
      * @return TAD class instance.
      */
-    public function get_instance()
+    public function get_instance(): TAD
     {
         $options = $this->options;
         $this->set_options($this->get_default_options(), $options);

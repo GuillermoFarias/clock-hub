@@ -63,7 +63,7 @@ class test extends Command
         // print_r($comands);
         $serialNumber = $tad->get_serial_number();
 
-        print_r($serialNumber);
+        print_r($serialNumber->to_json());
 
         return Command::SUCCESS;
     }
