@@ -32,7 +32,7 @@ class test extends Command
      */
     public function handle()
     {
-        $ip = "192.168.2.251";
+        $ip = "192.168.2.250";
         $port = 4370;
 
         $device = new Device($ip, $port);
@@ -47,6 +47,8 @@ class test extends Command
         $end_time = microtime(true);
 
         echo "Time: " . ($end_time - $start_time) . PHP_EOL;
+
+        print_r($attLogs[0]);
 
         return Command::SUCCESS;
     }
