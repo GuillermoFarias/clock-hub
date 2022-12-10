@@ -700,144 +700,29 @@ class TADZKLib
 
     public function getAttendance()
     {
-        if ($this->protocol == 'TCP') {
-            $command = 1503;
-            $command_string = pack('CCLLC', 1, 13, 0, 0, 0);
-            $chksum = 0;
-            $session_id = $this->session_id;
-            $patron = "";
-            $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($this->data_recv, $this->start_data, 8));
-            $ucs = unpack('H' . (strlen($command_string) * 2), substr($command_string, 0));
-            $udat = unpack('H' . (strlen($this->data_recv) * 2), substr($this->data_recv, 0));
-            $reply_id = hexdec($u['h8'] . $u['h7']);
-            $buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
-            $this->send($buf);
-            $this->data_recv = $this->recv();
-            $udat = unpack('H' . (strlen($this->data_recv) * 2), substr($this->data_recv, 0));
-            $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($this->data_recv, $this->start_data, 8));
-            $reply_id = hexdec($u['h8'] . $u['h7']);
-            $comando = hexdec($u['h2'] . $u['h1']);
 
-            if ($comando == CMD_ACK_OK) {
-                $u = unpack('H2h1/H2h2/H2h3/H2h4', substr($this->data_recv, 17, 4));
-                $size = hexdec($u['h4'] . $u['h3'] . $u['h2'] . $u['h1']);
-            } else {
-                $u = unpack('H2h1/H2h2/H2h3/H2h4', substr($this->data_recv, 16, 4));
-                $size = hexdec($u['h4'] . $u['h3'] . $u['h2'] . $u['h1']);
-            }
-
-            if ($size > 1024) {
-                $buf = $this->createHeader(1504, $chksum, $session_id, $reply_id, pack('LL', 0, $size));
-                $this->send($buf);
-            }
-        } else {
-            $command = CMD_ATTLOG_RRQ;
-            $command_string = '';
-            $chksum = 0;
-            $session_id = $this->session_id;
-            $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($this->data_recv, $this->start_data, 8));
-            $reply_id = hexdec($u['h8'] . $u['h7']);
-            $buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
-            $this->send($buf);
-        }
+        $command = CMD_ATTLOG_RRQ;
+        $command_string = '';
+        $chksum = 0;
+        $session_id = $this->session_id;
+        $u = unpack('H2h1/H2h2/H2h3/H2h4/H2h5/H2h6/H2h7/H2h8', substr($this->data_recv, $this->start_data, 8));
+        $reply_id = hexdec($u['h8'] . $u['h7']);
+        $buf = $this->createHeader($command, $chksum, $session_id, $reply_id, $command_string);
+        $this->send($buf);
 
         try {
-            if ($this->protocol == 'TCP') {
-                if ($size > 1024) {
-                    $this->data_recv = $this->recv();
-                    $bytes = $this->getSizeAttendance();
-                    $londata_recv = strlen($this->data_recv);
-                    $bytes2 = 0;
-                    $tembytes = $bytes;
-
-                    if ($londata_recv > 24) {
-                        array_push($this->attendance_data, substr($this->data_recv, 24));
-                        $bytes3 = ($londata_recv - 24);
-                        $bytes2 = $londata_recv - 24;
-                        $bytes -= $bytes3;
-                    }
-
-                    if ($bytes) {
-                        while ($bytes > 0) {
-                            $data_recv = $this->recv();
-                            $bytes2 += strlen($data_recv);
-                            $longitud = strlen($data_recv);
-                            if ($bytes2 > 1024) {
-                                if (substr($data_recv, 0, 2) == 'PP') {
-                                    $data_recv = substr($data_recv, 16);
-                                    $bytes2 -= 1024;
-                                } else {
-                                    $data_recv = substr($data_recv, 0, $longitud - ($bytes2 - 1024)) . substr($data_recv, $longitud - ($bytes2 - 1024) + 16);
-                                    $bytes2 -= 1024;
-                                }
-                            }
-                            array_push($this->attendance_data, substr($data_recv, 0));
-                            $bytes -= strlen($data_recv);
-
-                            if (strlen($data_recv) == 0) {
-                                $bytes = 0;
-                            }
-                        }
-                        $this->session_id = hexdec($u['h6'] . $u['h5']);
-                        $data_recv = $this->recv();
-                    }
-                    if ($londata_recv > 24) {
-                        array_push($this->attendance_data, substr($this->data_recv, 0, 24));
-                    } else {
-                        array_push($this->attendance_data, substr($this->data_recv, 0));
-                    }
-                    if (count($this->attendance_data) > 0) {
-                        $this->attendance_data[0] = substr($this->attendance_data[0], 8);
-                    }
-                } else {
-
-                    $ssize = $size;
-
-                    $sizerecibido = 0;
-
-                    array_push($this->attendance_data, substr($this->data_recv, 8));
-
-                    if ($size > 0) {
-                        $u = unpack('H' . (strlen($this->data_recv) * 2), substr($this->data_recv, 0));
-                        $size -= strlen($this->data_recv);
-
-                        $sizerecibido += strlen($this->data_recv);
-
-                        while ($size > 0) {
-                            $data_recv = $this->recv();
-                            $u = unpack('H' . (strlen($data_recv) * 2), substr($data_recv, 0));
-                            array_push($this->attendance_data, substr($data_recv, 0));
-                            $size -= strlen($data_recv);
-
-                            $sizerecibido += strlen($data_recv);
-
-                            if (strlen($data_recv) == 0) {
-                                $size = 0;
-                            }
-                        }
-
-                        if ($sizerecibido <> ($ssize + 20)) {
-                            $data_recv = $this->recv();
-                            $u = unpack('H' . (strlen($data_recv) * 2), substr($data_recv, 0));
-                            array_push($this->attendance_data, substr($data_recv, 0));
-
-                            $sizerecibido += strlen($data_recv);
-                        }
-                    }
+            $this->data_recv = $this->recv();
+            $bytes = $this->getSizeAttendance();
+            if ($bytes) {
+                while ($bytes > 0) {
+                    $data_recv = $this->recv(1032);
+                    array_push($this->attendance_data, $data_recv);
+                    $bytes -= 1024;
                 }
-            } else {
-                $this->data_recv = $this->recv();
-                $bytes = $this->getSizeAttendance();
-                if ($bytes) {
-                    while ($bytes > 0) {
-                        $data_recv = $this->recv(1032);
-                        array_push($this->attendance_data, $data_recv);
-                        $bytes -= 1024;
-                    }
-                    $this->session_id = hexdec($u['h6'] . $u['h5']);
-                    $data_recv = $this->recv();
-                }
+                $this->session_id = hexdec($u['h6'] . $u['h5']);
+                $data_recv = $this->recv();
             }
+
 
             $attendance = array();
             if (count($this->attendance_data) > 0) {
@@ -888,11 +773,7 @@ class TADZKLib
     public function recv($length = 1024)
     {
         $data = '';
-        if ($this->protocol == 'TCP') {
-            $data = socket_read($this->zkclient, $length);
-        } else {
-            socket_recvfrom($this->zkclient, $data, $length, 0, $this->ip, $this->port);
-        }
+        socket_recvfrom($this->zkclient, $data, $length, 0, $this->ip, $this->port);
         return $data;
     }
 
@@ -907,5 +788,10 @@ class TADZKLib
         } else {
             return FALSE;
         }
+    }
+
+    public function send($buf)
+    {
+        socket_sendto($this->socket, $buf, strlen($buf), 0, $this->ip, $this->port);
     }
 }
