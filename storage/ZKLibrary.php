@@ -84,12 +84,14 @@ class ZKLibrary
             $this->setTimeout($this->timeout_sec, $this->timeout_usec);
         }
     }
+
     public function __destruct()
     {
         unset($this->received_data);
         unset($this->user_data);
         unset($this->attendance_data);
     }
+
     public function send($buf)
     {
         if ($this->protocol == 'TCP') {

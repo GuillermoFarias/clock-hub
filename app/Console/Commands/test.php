@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Services\ClockService\Device;
 use App\Services\ZKLibrary;
-use App\Services\ZkService\TAD;
-use App\Services\ZkService\TADFactory;
+use App\Services\ClockService\TadConnector\TAD;
+use App\Services\ClockService\TadConnector\TADFactory;
 use Illuminate\Console\Command;
-use App\Services\ZkService\ZktecoLib;
+use App\Services\ClockService\TadConnector\ZktecoLib;
 
 class test extends Command
 {
@@ -34,41 +35,18 @@ class test extends Command
         $ip = "192.168.2.251";
         $port = 4370;
 
-        $options = [
-            'ip' => $ip,
-            'internal_id' => 1,         // 1 by default.
-            'com_key' => 0,             // 0 by default.
-            'description' => 'TAD1',    // 'N/A' by default.
-            'soap_port' => 80,          // 80 by default,
-            'udp_port' => $port,        // 4370 by default.
-            'encoding' => 'utf-8'       // iso8859-1 by default.
-        ];
+        $device = new Device($ip, $port);
 
-        $tad_factory = new TADFactory($options);
-        $tad = $tad_factory->get_instance();
-
-        // $comands = TAD::commands_available();
-        // print_r($comands);
-        // $serialNumber = $tad->get_serial_number();
-
-        // print_r($serialNumber->to_json());
+        if (!$device->connect()) {
+            echo "Device not connected" . PHP_EOL;
+            return Command::FAILURE;
+        }
 
         $start_time = microtime(true);
-        $att_logs = $tad->get_att_log();
+        $attLogs = $device->getAttendances();
         $end_time = microtime(true);
-        $execution_time = ($end_time - $start_time);
-        echo "Time = " . $execution_time . " sec " . PHP_EOL;
 
-        $start_time = microtime(true);
-        $filtered_att_logs = $att_logs->filter_by_date(
-            ['start' => '2022-12-09', 'end' => '2022-12-09']
-        );
-        $end_time = microtime(true);
-        $execution_time = ($end_time - $start_time);
-        echo "Time to filter = " . $execution_time . " sec " . PHP_EOL;
-
-
-        // print_r($filtered_att_logs->to_array());
+        echo "Time: " . ($end_time - $start_time) . PHP_EOL;
 
         return Command::SUCCESS;
     }
