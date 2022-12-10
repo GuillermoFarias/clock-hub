@@ -59,15 +59,15 @@ class test extends Command
         $tad_factory = new TADFactory($options);
         $tad = $tad_factory->get_instance();
 
-        // $comands = TAD::commands_available();
-        // print_r($comands);
+        $zklib_commands = TAD::zklib_commands_available();
+        print_r($zklib_commands);
         // $serialNumber = $tad->get_serial_number();
 
         // print_r($serialNumber->to_json());
 
-        $logs = $tad->get_att_log();
+        // $logs = $tad->get_att_log();
 
-        print_r($logs->to_json());
+        // print_r($logs->to_json());
 
         return Command::SUCCESS;
     }
