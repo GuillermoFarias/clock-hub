@@ -42,9 +42,6 @@ class test extends Command
         $atendance = $zk->getAttendance();
 
         $this->warn("Total: " . count($atendance));
-        foreach ($atendance as $attendance) {
-            print_r($attendance);
-        }
 
         // $options = [
         //     'ip' => $ip,
