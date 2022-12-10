@@ -157,9 +157,7 @@ class ZKLibrary
         try {
             $this->received_data = $this->recv();
             return $this->checkValid($this->received_data);
-        } catch (ErrorException $e) {
-            return FALSE;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return FALSE;
         }
     }
@@ -263,8 +261,9 @@ class ZKLibrary
         $buf = unpack('C' . (8 + strlen($command_string)) . 'c', $buf);
         $u = unpack('S', $this->checkSum($buf));
         if (is_array($u)) {
-            while (list($key) = each($u)) {
-                $u = $u[$key];
+            // change while to foreach
+            foreach ($u as $key => $value) {
+                $u = $value;
                 break;
             }
         }
