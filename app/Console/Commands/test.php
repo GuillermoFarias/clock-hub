@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\ZKLibrary;
 use Illuminate\Console\Command;
 use App\Services\ZkService\ZktecoLib;
 
@@ -31,7 +32,7 @@ class test extends Command
         $ip = "192.168.2.251";
         $port = 4370;
 
-        $zk = new ZktecoLib($ip, $port);
+        $zk = new ZKLibrary($ip, $port);
         $zk->connect();
         $this->warn($zk->getSerialNumber());
         return Command::SUCCESS;
