@@ -701,7 +701,7 @@ class TADZKLib
     public function getAttendance()
     {
 
-        $command = CMD_ATTLOG_RRQ;
+        $command = self::CMD_ATTLOG_RRQ;
         $command_string = '';
         $chksum = 0;
         $session_id = $this->session_id;
