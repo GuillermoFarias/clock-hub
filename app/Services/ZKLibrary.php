@@ -206,6 +206,7 @@ class ZKLibrary
         $data = (($year % 100) * 12 * 31 + (($month - 1) * 31) + $day - 1) * (24 * 60 * 60) + ($hour * 60 + $minute) * 60 + $second;
         return $data;
     }
+
     private function decodeTime($data)
     {
         $second = $data % 60;

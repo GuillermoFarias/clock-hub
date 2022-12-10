@@ -59,8 +59,8 @@ class test extends Command
         $tad_factory = new TADFactory($options);
         $tad = $tad_factory->get_instance();
 
-        $zklib_commands = TAD::zklib_commands_available();
-        print_r($zklib_commands);
+        $commands = TAD::soap_commands_available();
+        print_r($commands);
         // $serialNumber = $tad->get_serial_number();
 
         // print_r($serialNumber->to_json());
