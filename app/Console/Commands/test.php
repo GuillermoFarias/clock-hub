@@ -65,9 +65,9 @@ class test extends Command
 
         // print_r($serialNumber->to_json());
 
-        $logs = $tad->get_attendance();
+        $logs = $tad->get_att_logs();
 
-        print_r($logs->to_json());
+        print_r($logs->to_array());
 
         return Command::SUCCESS;
     }
