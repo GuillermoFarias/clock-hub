@@ -234,6 +234,12 @@ class TADZKLib
             'command_string' => self::EMPTY_STRING,
             'should_disconnect' => true,
             'result_filter_string' => false
+        ],
+        'get_attendance' => [
+            'command_id' => self::CMD_GET_FREE_SIZES,
+            'command_string' => self::EMPTY_STRING,
+            'should_disconnect' => true,
+            'result_filter_string' => false
         ]
     ];
 
