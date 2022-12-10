@@ -59,13 +59,13 @@ class test extends Command
         $tad_factory = new TADFactory($options);
         $tad = $tad_factory->get_instance();
 
-        // $commands = TAD::soap_commands_available();
-        // print_r($commands);
+        // $comands = TAD::commands_available();
+        // print_r($comands);
         // $serialNumber = $tad->get_serial_number();
 
         // print_r($serialNumber->to_json());
 
-        $logs = $tad->get_att_logs();
+        $logs = $tad->get_att_log();
 
         print_r($logs->to_array());
 
