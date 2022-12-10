@@ -243,7 +243,7 @@ class ZktecoLib
         $buf = unpack('C' . (8 + strlen($command_string)) . 'c', $buf);
         $u = unpack('S', $this->checkSum($buf));
         if (is_array($u)) {
-            foreach ($u as $key => $value) {
+            foreach ($u as $value) {
                 $u = $value;
                 break;
             }
