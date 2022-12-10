@@ -36,7 +36,7 @@ class TADSoap
 {
     const XML_FAIL_RESPONSE = 'Fail!';
     const XML_SUCCESS_RESPONSE = 'Succeed!';
-    const SOAP_VERSION = SOAP_1_1;
+    const SOAP_VERSION = 1;
 
     /**
      * @var array SOAP commands array supported by the class.
