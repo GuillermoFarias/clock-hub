@@ -47,8 +47,8 @@ class test extends Command
         $end_time = microtime(true);
 
         echo "Time: " . ($end_time - $start_time) . PHP_EOL;
-        echo "Count: " . count($attLogs) . PHP_EOL;
 
+        print_r($attLogs);
         return Command::SUCCESS;
     }
 }
