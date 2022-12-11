@@ -4,6 +4,7 @@ namespace App\Services\ClockService;
 
 use App\Services\ClockService\TadConnector\TAD;
 use App\Services\ClockService\TadConnector\TADFactory;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class Device
@@ -83,6 +84,51 @@ class Device
     public function getAttendances(): array
     {
         $attendances = $this->tadInstance->get_att_log();
-        return $attendances->to_array();
+        return $this->wrapAttendances($attendances->to_array());
+    }
+
+    /**
+     * get attendances from device by date
+     *
+     * @return array
+     */
+    public function getAttendancesOfDate(Carbon $date): array
+    {
+        $attendances = $this->tadInstance->get_att_log();
+        $attendances = $attendances->filter_by_date([
+            'start' => $date->format('Y-m-d'),
+            'end' => $date->format('Y-m-d')
+        ]);
+
+        return $this->wrapAttendances($attendances->to_array());
+    }
+
+    /**
+     * get attendances from device by date
+     *
+     * @return array
+     */
+    public function getAttendancesOfToday(): array
+    {
+        return $this->getAttendancesOfDate(Carbon::now());
+    }
+
+    /**
+     * wrapAttendances
+     *
+     * @param  array $attendances
+     * @return array
+     */
+    private function wrapAttendances(array $attendances): array
+    {
+        return array_map(function ($attendance) {
+            return new AttendandeEntry(
+                $attendance['PIN'],
+                $attendance['DateTime'],
+                $attendance['Status'],
+                $attendance['Verified'],
+                $attendance['WorkCode']
+            );
+        }, $attendances);
     }
 }

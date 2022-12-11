@@ -43,12 +43,10 @@ class test extends Command
         }
 
         $start_time = microtime(true);
-        $attLogs = $device->getAttendances();
+        $attLogs = $device->getAttendancesOfToday();
         $end_time = microtime(true);
 
         echo "Time: " . ($end_time - $start_time) . PHP_EOL;
-
-        print_r($attLogs);
 
         return Command::SUCCESS;
     }
