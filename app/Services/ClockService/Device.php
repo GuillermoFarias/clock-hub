@@ -122,7 +122,7 @@ class Device
     private function wrapAttendances(array $attendances): array
     {
         return array_map(function ($attendance) {
-            return new AttendandeEntry(
+            return new AttendanceEntry(
                 $attendance['PIN'],
                 $attendance['DateTime'],
                 $attendance['Status'],

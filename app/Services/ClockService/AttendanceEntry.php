@@ -4,7 +4,7 @@ namespace App\Services\ClockService;
 
 use Carbon\Carbon;
 
-class AttendandeEntry
+class AttendanceEntry
 {
     private string $pin = '';
     private string $dateTime = '';
