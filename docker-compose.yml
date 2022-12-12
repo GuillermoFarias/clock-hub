@@ -31,6 +31,12 @@ services:
     volumes:
       - db:/var/lib/mysql
 
+# use external network, if dosn't exist, create it
+networks:
+  default:
+    external:
+      name: chk-network
+
 volumes:
   db:
     driver: local
